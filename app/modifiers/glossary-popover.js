@@ -5,8 +5,10 @@ export default class GlossaryPopoverModifier extends Modifier {
   currentTermElement = null;
   glossaryInitialized = false;
   setupTimer = null;
+  element = null;
   
-  didReceiveArguments() {
+  modify(element) {
+    this.element = element;
     if (!this.glossaryInitialized) {
       this.setupGlossaryTerms();
       this.glossaryInitialized = true;
