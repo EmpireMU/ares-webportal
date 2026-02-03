@@ -1,0 +1,102 @@
+/* -------------------------
+   GLOSSARY TERMS
+   Automatic term highlighting with interactive popovers
+------------------------- */
+
+/* Glossary term styling */
+.glossary-term {
+  cursor: pointer;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.12);
+  border: none;
+  padding: 0 2px;
+  font: inherit;
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+  border-radius: 2px;
+  
+  &:hover,
+  &:focus {
+    color: #6ea8fe;
+    background: rgba(255, 255, 255, 0.18);
+    text-decoration-color: #6ea8fe;
+    outline: none;
+  }
+}
+
+/* Glossary popover styling */
+.glossary-popover {
+  position: absolute;
+  z-index: 1060;
+  max-width: 350px;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 0.3rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  padding: 0;
+  display: none;
+  
+  &.show {
+    display: block;
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+}
+
+.glossary-popover-header {
+  padding: 0.75rem 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  border-radius: 0.3rem 0.3rem 0 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1f2937;
+}
+
+.glossary-popover-body {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #212529;
+}
+
+.glossary-popover-footer {
+  padding: 0.5rem 1rem;
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  border-radius: 0 0 0.3rem 0.3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  a {
+    font-size: 0.875rem;
+    text-decoration: none;
+    
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+}
+
+.glossary-close-btn {
+  background: none;
+  border: none;
+  color: #6c757d;
+  font-size: 0.9rem;
+  cursor: pointer;
+  
+  &:hover,
+  &:focus {
+    color: #343a40;
+    outline: none;
+  }
+}
