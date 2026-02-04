@@ -72,6 +72,7 @@ Router.map(function() {
   this.route('fs3skills-scan', { path: '/fs3skills/scan' });
   this.route('game-edit');
   this.route('groups');
+  this.route('organisations');
   this.route('help');
   this.route('help-topic', { path: '/help/:topic' });
   this.route('help-override', { path: '/help/:topic/override' });

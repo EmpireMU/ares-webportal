@@ -1,0 +1,28 @@
+{{page-title 'Organisations'}}
+<h1>Organisations</h1>
+
+<p>Characters can belong to multiple organisations. Click on a character's profile to see their organisation memberships.</p>
+
+{{#each this.model.organisations as |org|}}
+  <div class="card mb-3">
+    <div class="card-body">
+      <h2 class="card-title">{{org.name}}</h2>
+      
+      {{#if org.description}}
+        <p class="card-text">{{org.description}}</p>
+      {{/if}}
+      
+      <div class="mt-2">
+        <span class="badge bg-primary">{{org.member_count}} members</span>
+        
+        {{#if org.wiki}}
+          <LinkTo @route="wiki-page" @model={{org.wiki}} class="btn btn-sm btn-secondary ms-2">
+            <i class="fa fa-book"></i> Wiki Page
+          </LinkTo>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+{{/each}}
+
+{{outlet}}
