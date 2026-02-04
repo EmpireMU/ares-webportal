@@ -1,0 +1,23 @@
+{{#if @char.organisations}}
+<div id="systemorganisations" class="tab-pane fade">
+  <h3>Organisations</h3>
+  
+  {{#if @char.organisations}}
+    <ul class="list-group">
+      {{#each @char.organisations as |org|}}
+        <li class="list-group-item">
+          <h5>{{org.name}}</h5>
+          {{#if org.description}}
+            <p>{{org.description}}</p>
+          {{/if}}
+          {{#if org.wiki}}
+            <LinkTo @route="wiki-page" @model={{org.wiki}} class="btn btn-sm btn-secondary">Wiki Page</LinkTo>
+          {{/if}}
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>Not a member of any organisations.</p>
+  {{/if}}
+</div>
+{{/if}}
