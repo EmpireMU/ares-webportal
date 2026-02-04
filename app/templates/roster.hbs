@@ -3,25 +3,8 @@
 
 <p>The roster contains ready-made characters.  Some have been played before, as indicated by a <span class="badge bg-info">Previously Played</span> tag.  For most characters, you can claim them and begin playing immediately.  Characters marked with <span class="badge bg-warning">App Required</span> require an application.</p>
 
-<div class="mb-3">
-  <button type="button" class="btn {{if this.showOrgView 'btn-secondary' 'btn-primary'}}" {{on "click" this.viewByFaction}}>View by Faction</button>
-  <button type="button" class="btn {{if this.showOrgView 'btn-primary' 'btn-secondary'}}" {{on "click" this.viewByOrganisation}}>View by Organisation</button>
-</div>
-
-{{#if this.showOrgView}}
-  <div class="mb-3">
-    <label for="orgFilter" class="form-label">Filter by Organisation:</label>
-    <select id="orgFilter" class="form-select" onchange={{action this.filterByOrg value="target.value"}}>
-      <option value="">All Organisations</option>
-      {{#each this.availableOrgs as |org|}}
-        <option value={{org}}>{{org}}</option>
-      {{/each}}
-    </select>
-  </div>
-{{/if}}
-
 <ul class="nav nav-tabs">
-{{#each this.displayRoster as |group|}}
+{{#each this.model.roster as |group|}}
 
       <li class="nav-item"><a data-bs-toggle="tab" href="#{{group.key}}" class="nav-link {{group.active_class}}">{{group.name}}</a></li>
 {{/each}}
@@ -29,7 +12,7 @@
 
 <div class="tab-content" role="tablist">    
 
-{{#each this.displayRoster as |group|}}
+{{#each this.model.roster as |group|}}
 
   <div id="{{group.key}}" class="tab-pane fade show {{group.active_class}}">
 

@@ -74,7 +74,7 @@
         {{/if}}
 
          {{#if (not this.showSidebar)}}
-             <div class="body-container {{if this.model.left_sidebar 'right-body' 'left-body'}}" role="main">
+             <div class="body-container {{if this.model.left_sidebar 'right-body' 'left-body'}}" role="main" {{glossary-popover}}>
                <FlashMessages />
                
                {{#if (not this.socketConnected)}}
@@ -88,7 +88,7 @@
                {{/if}}
              </div>
          {{else}}
-             <div class="body-container {{if this.model.left_sidebar 'right-body' 'left-body'}}" role="main">
+             <div class="body-container {{if this.model.left_sidebar 'right-body' 'left-body'}}" role="main" {{glossary-popover}}>
                <FlashMessages />
                {{outlet}}
              </div>

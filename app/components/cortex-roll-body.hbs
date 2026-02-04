@@ -11,8 +11,8 @@
 {{#if this.roll.useBuilder}}
   <div class="mb-3">
     <h5>Prime Sets</h5>
-    <div class="row g-2">
-      <div class="col-md-4">
+    <div class="row g-2 mb-2 align-items-end">
+      <div class="col-md-5">
         <label class="form-label">Attribute</label>
         <select class="form-select" onchange={{action (mut this.roll.selectedAttribute) value="target.value"}}>
           <option value="">Select Attribute</option>
@@ -21,7 +21,7 @@
           {{/each}}
         </select>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-3">
         <label class="form-label">Mod</label>
         <select class="form-select" onchange={{action (mut this.roll.attributeMod) value="target.value"}}>
           <option value="">None</option>
@@ -29,14 +29,16 @@
           <option value="D">Step Down</option>
         </select>
       </div>
-      <div class="col-md-2 d-flex align-items-end">
+      <div class="col-auto">
         <div class="form-check">
           <Input @type="checkbox" @checked={{this.roll.attributeDouble}} class="form-check-input" id="cortex-attr-double" />
           <label class="form-check-label" for="cortex-attr-double">Doubled</label>
         </div>
       </div>
+    </div>
 
-      <div class="col-md-4">
+    <div class="row g-2 mb-2 align-items-end">
+      <div class="col-md-5">
         <label class="form-label">Skill</label>
         <select class="form-select" onchange={{action (mut this.roll.selectedSkill) value="target.value"}}>
           <option value="">Select Skill</option>
@@ -45,7 +47,7 @@
           {{/each}}
         </select>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-3">
         <label class="form-label">Mod</label>
         <select class="form-select" onchange={{action (mut this.roll.skillMod) value="target.value"}}>
           <option value="">None</option>
@@ -53,14 +55,16 @@
           <option value="D">Step Down</option>
         </select>
       </div>
-      <div class="col-md-2 d-flex align-items-end">
+      <div class="col-auto">
         <div class="form-check">
           <Input @type="checkbox" @checked={{this.roll.skillDouble}} class="form-check-input" id="cortex-skill-double" />
           <label class="form-check-label" for="cortex-skill-double">Doubled</label>
         </div>
       </div>
+    </div>
 
-      <div class="col-md-4">
+    <div class="row g-2 mb-2 align-items-end">
+      <div class="col-md-5">
         <label class="form-label">Distinction</label>
         <select class="form-select" onchange={{action (mut this.roll.selectedDistinction) value="target.value"}}>
           <option value="">Select Distinction</option>
@@ -69,15 +73,16 @@
           {{/each}}
         </select>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-3">
         <label class="form-label">Mod</label>
         <select class="form-select" onchange={{action (mut this.roll.distinctionMod) value="target.value"}}>
           <option value="">None</option>
           <option value="U">Step Up</option>
           <option value="D">Step Down</option>
+          <option value="H">d4 (Hinder)</option>
         </select>
       </div>
-      <div class="col-md-2 d-flex align-items-end">
+      <div class="col-auto">
         <div class="form-check">
           <Input @type="checkbox" @checked={{this.roll.distinctionDouble}} class="form-check-input" id="cortex-dist-double" />
           <label class="form-check-label" for="cortex-dist-double">Doubled</label>
@@ -89,20 +94,37 @@
   <div class="mb-3">
     <h5>Extras</h5>
     {{#each this.roll.extraTraits as |trait|}}
-      <div class="row g-2 mb-2">
+      <div class="row g-2 mb-2 align-items-center">
         <div class="col-md-3">
           <select class="form-select" onchange={{action (mut trait.section) value="target.value"}}>
+            <option value="attributes">Attributes</option>
+            <option value="skills">Skills</option>
+            <option value="distinctions">Distinctions</option>
             <option value="resources">Resources</option>
             <option value="signature_assets">Signature Assets</option>
             <option value="powers">Powers</option>
             <option value="temporary_assets">Temporary Assets</option>
             <option value="complications">Complications</option>
-            <option value="distinctions">Distinctions</option>
           </select>
         </div>
         <div class="col-md-3">
           <select class="form-select" onchange={{action (mut trait.name) value="target.value"}}>
             <option value="">Select Trait</option>
+            {{#if (eq trait.section "attributes")}}
+              {{#each this.roll.cortex.sheet.attributes as |item|}}
+                <option value="{{item.name}}">{{item.name}}</option>
+              {{/each}}
+            {{/if}}
+            {{#if (eq trait.section "skills")}}
+              {{#each this.roll.cortex.sheet.skills as |item|}}
+                <option value="{{item.name}}">{{item.name}}</option>
+              {{/each}}
+            {{/if}}
+            {{#if (eq trait.section "distinctions")}}
+              {{#each this.roll.cortex.sheet.distinctions as |item|}}
+                <option value="{{item.name}}">{{item.name}}</option>
+              {{/each}}
+            {{/if}}
             {{#if (eq trait.section "resources")}}
               {{#each this.roll.cortex.sheet.resources as |item|}}
                 <option value="{{item.name}}">{{item.name}}</option>
@@ -128,11 +150,6 @@
                 <option value="{{item.name}}">{{item.name}}</option>
               {{/each}}
             {{/if}}
-            {{#if (eq trait.section "distinctions")}}
-              {{#each this.roll.cortex.sheet.distinctions as |item|}}
-                <option value="{{item.name}}">{{item.name}}</option>
-              {{/each}}
-            {{/if}}
           </select>
         </div>
         <div class="col-md-2">
@@ -142,13 +159,13 @@
             <option value="D">Step Down</option>
           </select>
         </div>
-        <div class="col-md-2 d-flex align-items-end">
+        <div class="col-auto">
           <div class="form-check">
             <Input @type="checkbox" @checked={{trait.doubled}} class="form-check-input" />
             <label class="form-check-label">Doubled</label>
           </div>
         </div>
-        <div class="col-md-2 d-flex align-items-end">
+        <div class="col-auto">
           <button class="btn btn-outline-danger btn-sm" {{on "click" (fn this.roll.removeExtraTrait trait)}}>Remove</button>
         </div>
       </div>

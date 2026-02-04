@@ -81,14 +81,15 @@ export default Component.extend({
       return null;
     }
     let die = parseInt(trait.die.replace('d', ''), 10);
-    if (mod === 'D') {
+    if (mod === 'H') {
+      die = 4;
+    } else if (mod === 'D') {
       if (trait.section === 'distinctions') {
         die = 4;
       } else {
         die = this.stepDie(die, -1);
       }
-    }
-    if (mod === 'U') {
+    } else if (mod === 'U') {
       die = this.stepDie(die, 1);
     }
     return die;
@@ -151,10 +152,11 @@ export default Component.extend({
         return "";
       }
       let suffix = "";
-      if (mod === 'U') {
+      if (mod === 'H') {
+        suffix += " (Hinder)";
+      } else if (mod === 'U') {
         suffix += " (U)";
-      }
-      if (mod === 'D') {
+      } else if (mod === 'D') {
         suffix += " (D)";
       }
       if (doubled) {
