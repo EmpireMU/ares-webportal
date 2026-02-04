@@ -29,6 +29,7 @@ Router.map(function() {
   this.route('census');
   this.route('census-group', { path: '/census/:filter' });
   this.route('characters', { path: '/chars'});
+  this.route('characters-by-org', { path: '/chars-by-org'});
   this.route('char', { path: '/char/:id' });
   this.route('char-edit', { path: '/char/:id/edit' });
   this.route('char-source', { path: '/char/:char_id/source/:version_id' });

@@ -1,0 +1,55 @@
+{{page-title 'Characters by Organisation'}}
+<h1>Characters by Organisation</h1>
+
+<p>Active characters grouped by their organisation memberships.</p>
+
+<ul class="nav nav-tabs">
+{{#each this.model.organisations as |org index|}}
+  <li class="nav-item">
+    <a data-bs-toggle="tab" href="#{{org.key}}" class="nav-link {{if (eq index 0) 'active'}}">
+      {{org.name}} ({{org.chars.length}})
+    </a>
+  </li>
+{{/each}}
+</ul>
+
+<div class="tab-content">
+  {{#each this.model.organisations as |org index|}}
+    <div id="{{org.key}}" class="tab-pane fade {{if (eq index 0) 'show active'}}">
+      <h2>{{org.name}}</h2>
+      
+      <div class="row">
+        {{#each org.chars as |char|}}
+          <div class="col-md-4 col-sm-6 mb-3">
+            <div class="card h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                  <CharIcon @char={{char}} />
+                  <div class="ms-2">
+                    <h5 class="card-title mb-0">
+                      <LinkTo @route="char" @model={{char.name}}>{{char.name}}</LinkTo>
+                    </h5>
+                    <small class="text-muted">{{char.profile_title}}</small>
+                  </div>
+                </div>
+                
+                {{#if char.organisations}}
+                  <div class="mt-2">
+                    <small><strong>Organisations:</strong></small>
+                    <ul class="small mb-0">
+                      {{#each char.organisations as |orgName|}}
+                        <li>{{orgName}}</li>
+                      {{/each}}
+                    </ul>
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  {{/each}}
+</div>
+
+{{outlet}}
