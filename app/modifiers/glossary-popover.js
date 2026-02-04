@@ -3,16 +3,14 @@ import Modifier from 'ember-modifier';
 export default class GlossaryPopoverModifier extends Modifier {
   currentPopover = null;
   currentTermElement = null;
-  glossaryInitialized = false;
+  globalListenersAttached = false;
   setupTimer = null;
   element = null;
+  observer = null;
   
   modify(element) {
     this.element = element;
-    if (!this.glossaryInitialized) {
-      this.setupGlossaryTerms();
-      this.glossaryInitialized = true;
-    }
+    this.setupGlossaryTerms();
   }
   
   willDestroy() {
@@ -33,8 +31,13 @@ export default class GlossaryPopoverModifier extends Modifier {
       clearTimeout(this.setupTimer);
       this.setupTimer = null;
     }
+
+    if (this.observer) {
+      this.observer.disconnect();
+      this.observer = null;
+    }
     
-    this.glossaryInitialized = false;
+    this.globalListenersAttached = false;
   }
   
   setupGlossaryTerms() {
@@ -44,41 +47,71 @@ export default class GlossaryPopoverModifier extends Modifier {
         return;
       }
 
-      const glossaryTerms = this.element.querySelectorAll('.glossary-term');
-      if (glossaryTerms.length === 0) {
+      this.bindGlossaryTerms(this.element);
+      
+      if (!this.globalListenersAttached) {
+        // Global click handler to close popover when clicking outside
+        this.clickHandler = (e) => {
+          if (this.currentPopover && 
+              !e.target.closest('.glossary-popover') && 
+              !e.target.closest('.glossary-term')) {
+            this.closePopover();
+          }
+        };
+        document.addEventListener('click', this.clickHandler);
+        
+        // Scroll handler to reposition popover
+        this.scrollHandler = () => {
+          if (this.currentPopover && this.currentTermElement) {
+            this.positionPopover(this.currentTermElement, this.currentPopover);
+          }
+        };
+        window.addEventListener('scroll', this.scrollHandler);
+        
+        // Resize handler to close popover
+        this.resizeHandler = () => {
+          if (this.currentPopover) {
+            this.closePopover();
+          }
+        };
+        window.addEventListener('resize', this.resizeHandler);
+
+        this.globalListenersAttached = true;
+      }
+
+      if (!this.observer) {
+        this.observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+              if (!(node instanceof Element)) {
+                return;
+              }
+              if (node.classList.contains('glossary-term')) {
+                this.bindGlossaryTerms(node);
+              } else {
+                this.bindGlossaryTerms(node);
+              }
+            });
+          });
+        });
+
+        this.observer.observe(this.element, { childList: true, subtree: true });
+      }
+    }, 50);
+  }
+
+  bindGlossaryTerms(root) {
+    const terms = root.classList && root.classList.contains('glossary-term')
+      ? [root]
+      : root.querySelectorAll('.glossary-term');
+
+    terms.forEach((term) => {
+      if (term.dataset.glossaryBound === 'true') {
         return;
       }
-      
-      glossaryTerms.forEach((term) => {
-        this.attachTermListeners(term);
-      });
-      
-      // Global click handler to close popover when clicking outside
-      this.clickHandler = (e) => {
-        if (this.currentPopover && 
-            !e.target.closest('.glossary-popover') && 
-            !e.target.closest('.glossary-term')) {
-          this.closePopover();
-        }
-      };
-      document.addEventListener('click', this.clickHandler);
-      
-      // Scroll handler to reposition popover
-      this.scrollHandler = () => {
-        if (this.currentPopover && this.currentTermElement) {
-          this.positionPopover(this.currentTermElement, this.currentPopover);
-        }
-      };
-      window.addEventListener('scroll', this.scrollHandler);
-      
-      // Resize handler to close popover
-      this.resizeHandler = () => {
-        if (this.currentPopover) {
-          this.closePopover();
-        }
-      };
-      window.addEventListener('resize', this.resizeHandler);
-    }, 50);
+      this.attachTermListeners(term);
+      term.dataset.glossaryBound = 'true';
+    });
   }
   
   attachTermListeners(term) {
