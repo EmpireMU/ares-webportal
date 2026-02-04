@@ -20,6 +20,7 @@
   {{/if}}
   
   <ProfileFs3Tabs @char={{this.char}} @game={{this.game}} />
+  <ProfileCortexTabs @char={{this.char}} @game={{this.game}} @cortexExtraInstalled={{this.cortexExtraInstalled}} />
 
   {{#if this.char.achievements}}
       <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#systemachievements">Achievements</a></li>
@@ -100,6 +101,7 @@
   {{/if}}
   
   <ProfileFs3 @char={{this.char}} @game={{this.game}} @onReloadChar={{this.reloadChar}} />
+  <ProfileCortex @char={{this.char}} @game={{this.game}} @onReloadChar={{this.reloadChar}} @cortexExtraInstalled={{this.cortexExtraInstalled}} />
   
   {{#if this.traitsExtraInstalled}}
     <ProfileTraits @char={{this.char}} />

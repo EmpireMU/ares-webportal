@@ -1,0 +1,10 @@
+{{#if this.cortexExtraInstalled}}
+  {{#if this.char.cortex}}
+    {{#if this.char.cortex.show_sheet}}
+      <div id="systemcortex" class="tab-pane fade">
+        <CortexSheet @char={{this.char}} @cortex={{this.char.cortex}} @onReloadChar={{this.reloadChar}} />
+        <CortexRoll @cortex={{this.char.cortex}} />
+      </div>
+    {{/if}}
+  {{/if}}
+{{/if}}

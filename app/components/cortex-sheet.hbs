@@ -1,0 +1,416 @@
+<div class="d-flex align-items-center mb-2">
+  <h3 class="me-auto">Cortex Sheet</h3>
+  {{#if this.cortex.can_manage}}
+    {{#if this.isEditing}}
+      <button class="btn btn-primary btn-sm me-2" {{on "click" this.saveSheet}}>Save</button>
+      <button class="btn btn-outline-secondary btn-sm" {{on "click" this.cancelEdit}}>Cancel</button>
+    {{else}}
+      <button class="btn btn-outline-primary btn-sm" {{on "click" this.startEdit}}>Edit</button>
+    {{/if}}
+  {{/if}}
+</div>
+
+<div class="mb-3">
+  <b>Plot Points:</b>
+  {{#if this.isEditing}}
+    <Input @type="number" @value={{this.editPlotPoints}} class="form-control d-inline-block w-auto ms-2" />
+  {{else}}
+    <span class="ms-2">{{this.cortex.plot_points}}</span>
+  {{/if}}
+</div>
+
+<h4>Prime Sets</h4>
+
+<h5>Attributes</h5>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Die</th>
+      {{#if this.isEditing}}<th></th>{{/if}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#each (if this.isEditing this.editSheet.attributes this.cortex.sheet.attributes) as |trait|}}
+      <tr>
+        <td>
+          {{#if this.isEditing}}
+            <Input @value={{trait.name}} class="form-control form-control-sm" />
+          {{else}}
+            {{trait.name}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.isEditing}}
+            <select class="form-select form-select-sm" onchange={{action (mut trait.die) value="target.value"}}>
+              {{#each this.cortex.dice_sizes as |size|}}
+                <option value="d{{size}}" selected={{eq trait.die (concat "d" size)}}>d{{size}}</option>
+              {{/each}}
+            </select>
+          {{else}}
+            {{trait.die}}
+          {{/if}}
+        </td>
+        {{#if this.isEditing}}
+        <td class="text-end">
+          <button class="btn btn-outline-danger btn-sm" {{on "click" (fn this.removeTrait "attributes" trait)}}>Remove</button>
+        </td>
+        {{/if}}
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{#if this.isEditing}}
+  <button class="btn btn-outline-secondary btn-sm mb-3" {{on "click" (fn this.addTrait "attributes")}}>Add Attribute</button>
+{{/if}}
+
+<h5>Skills</h5>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Die</th>
+      {{#if this.isEditing}}<th></th>{{/if}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#each (if this.isEditing this.editSheet.skills this.cortex.sheet.skills) as |trait|}}
+      <tr>
+        <td>
+          {{#if this.isEditing}}
+            <Input @value={{trait.name}} class="form-control form-control-sm" />
+          {{else}}
+            {{trait.name}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.isEditing}}
+            <select class="form-select form-select-sm" onchange={{action (mut trait.die) value="target.value"}}>
+              {{#each this.cortex.dice_sizes as |size|}}
+                <option value="d{{size}}" selected={{eq trait.die (concat "d" size)}}>d{{size}}</option>
+              {{/each}}
+            </select>
+          {{else}}
+            {{trait.die}}
+          {{/if}}
+        </td>
+        {{#if this.isEditing}}
+        <td class="text-end">
+          <button class="btn btn-outline-danger btn-sm" {{on "click" (fn this.removeTrait "skills" trait)}}>Remove</button>
+        </td>
+        {{/if}}
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{#if this.isEditing}}
+  <button class="btn btn-outline-secondary btn-sm mb-3" {{on "click" (fn this.addTrait "skills")}}>Add Skill</button>
+{{/if}}
+
+<h5>Distinctions</h5>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Die</th>
+      <th>Description</th>
+      {{#if this.isEditing}}<th></th>{{/if}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#each (if this.isEditing this.editSheet.distinctions this.cortex.sheet.distinctions) as |trait|}}
+      <tr>
+        <td>
+          {{#if this.isEditing}}
+            <Input @value={{trait.name}} class="form-control form-control-sm" />
+          {{else}}
+            {{trait.name}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.isEditing}}
+            <select class="form-select form-select-sm" onchange={{action (mut trait.die) value="target.value"}}>
+              {{#each this.cortex.dice_sizes as |size|}}
+                <option value="d{{size}}" selected={{eq trait.die (concat "d" size)}}>d{{size}}</option>
+              {{/each}}
+            </select>
+          {{else}}
+            {{trait.die}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.isEditing}}
+            <Input @value={{trait.desc}} class="form-control form-control-sm" />
+          {{else}}
+            {{trait.desc}}
+          {{/if}}
+        </td>
+        {{#if this.isEditing}}
+        <td class="text-end">
+          <button class="btn btn-outline-danger btn-sm" {{on "click" (fn this.removeTrait "distinctions" trait)}}>Remove</button>
+        </td>
+        {{/if}}
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{#if this.isEditing}}
+  <button class="btn btn-outline-secondary btn-sm mb-3" {{on "click" (fn this.addTrait "distinctions")}}>Add Distinction</button>
+{{/if}}
+
+<h4>Additional Sets</h4>
+
+<h5>Resources</h5>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Die</th>
+      <th>Description</th>
+      {{#if this.isEditing}}<th></th>{{/if}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#each (if this.isEditing this.editSheet.resources this.cortex.sheet.resources) as |trait|}}
+      <tr>
+        <td>
+          {{#if this.isEditing}}
+            <Input @value={{trait.name}} class="form-control form-control-sm" />
+          {{else}}
+            {{trait.name}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.isEditing}}
+            <select class="form-select form-select-sm" onchange={{action (mut trait.die) value="target.value"}}>
+              {{#each this.cortex.dice_sizes as |size|}}
+                <option value="d{{size}}" selected={{eq trait.die (concat "d" size)}}>d{{size}}</option>
+              {{/each}}
+            </select>
+          {{else}}
+            {{trait.die}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.isEditing}}
+            <Input @value={{trait.desc}} class="form-control form-control-sm" />
+          {{else}}
+            {{trait.desc}}
+          {{/if}}
+        </td>
+        {{#if this.isEditing}}
+        <td class="text-end">
+          <button class="btn btn-outline-danger btn-sm" {{on "click" (fn this.removeTrait "resources" trait)}}>Remove</button>
+        </td>
+        {{/if}}
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{#if this.isEditing}}
+  <button class="btn btn-outline-secondary btn-sm mb-3" {{on "click" (fn this.addTrait "resources")}}>Add Resource</button>
+{{/if}}
+
+<h5>Signature Assets</h5>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Die</th>
+      <th>Description</th>
+      {{#if this.isEditing}}<th></th>{{/if}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#each (if this.isEditing this.editSheet.signature_assets this.cortex.sheet.signature_assets) as |trait|}}
+      <tr>
+        <td>
+          {{#if this.isEditing}}
+            <Input @value={{trait.name}} class="form-control form-control-sm" />
+          {{else}}
+            {{trait.name}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.isEditing}}
+            <select class="form-select form-select-sm" onchange={{action (mut trait.die) value="target.value"}}>
+              {{#each this.cortex.dice_sizes as |size|}}
+                <option value="d{{size}}" selected={{eq trait.die (concat "d" size)}}>d{{size}}</option>
+              {{/each}}
+            </select>
+          {{else}}
+            {{trait.die}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.isEditing}}
+            <Input @value={{trait.desc}} class="form-control form-control-sm" />
+          {{else}}
+            {{trait.desc}}
+          {{/if}}
+        </td>
+        {{#if this.isEditing}}
+        <td class="text-end">
+          <button class="btn btn-outline-danger btn-sm" {{on "click" (fn this.removeTrait "signature_assets" trait)}}>Remove</button>
+        </td>
+        {{/if}}
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{#if this.isEditing}}
+  <button class="btn btn-outline-secondary btn-sm mb-3" {{on "click" (fn this.addTrait "signature_assets")}}>Add Asset</button>
+{{/if}}
+
+<h5>Powers</h5>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Die</th>
+      <th>Description</th>
+      {{#if this.isEditing}}<th></th>{{/if}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#each (if this.isEditing this.editSheet.powers this.cortex.sheet.powers) as |trait|}}
+      <tr>
+        <td>
+          {{#if this.isEditing}}
+            <Input @value={{trait.name}} class="form-control form-control-sm" />
+          {{else}}
+            {{trait.name}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.isEditing}}
+            <select class="form-select form-select-sm" onchange={{action (mut trait.die) value="target.value"}}>
+              {{#each this.cortex.dice_sizes as |size|}}
+                <option value="d{{size}}" selected={{eq trait.die (concat "d" size)}}>d{{size}}</option>
+              {{/each}}
+            </select>
+          {{else}}
+            {{trait.die}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.isEditing}}
+            <Input @value={{trait.desc}} class="form-control form-control-sm" />
+          {{else}}
+            {{trait.desc}}
+          {{/if}}
+        </td>
+        {{#if this.isEditing}}
+        <td class="text-end">
+          <button class="btn btn-outline-danger btn-sm" {{on "click" (fn this.removeTrait "powers" trait)}}>Remove</button>
+        </td>
+        {{/if}}
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{#if this.isEditing}}
+  <button class="btn btn-outline-secondary btn-sm mb-3" {{on "click" (fn this.addTrait "powers")}}>Add Power</button>
+{{/if}}
+
+<h5>Temporary Assets</h5>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Die</th>
+      <th>Description</th>
+      {{#if this.isEditing}}<th></th>{{/if}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#each (if this.isEditing this.editSheet.temporary_assets this.cortex.sheet.temporary_assets) as |trait|}}
+      <tr>
+        <td>
+          {{#if this.isEditing}}
+            <Input @value={{trait.name}} class="form-control form-control-sm" />
+          {{else}}
+            {{trait.name}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.isEditing}}
+            <select class="form-select form-select-sm" onchange={{action (mut trait.die) value="target.value"}}>
+              {{#each this.cortex.dice_sizes as |size|}}
+                <option value="d{{size}}" selected={{eq trait.die (concat "d" size)}}>d{{size}}</option>
+              {{/each}}
+            </select>
+          {{else}}
+            {{trait.die}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.isEditing}}
+            <Input @value={{trait.desc}} class="form-control form-control-sm" />
+          {{else}}
+            {{trait.desc}}
+          {{/if}}
+        </td>
+        {{#if this.isEditing}}
+        <td class="text-end">
+          <button class="btn btn-outline-danger btn-sm" {{on "click" (fn this.removeTrait "temporary_assets" trait)}}>Remove</button>
+        </td>
+        {{/if}}
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{#if this.isEditing}}
+  <button class="btn btn-outline-secondary btn-sm mb-3" {{on "click" (fn this.addTrait "temporary_assets")}}>Add Temp Asset</button>
+{{/if}}
+
+<h5>Complications</h5>
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Die</th>
+      <th>Description</th>
+      {{#if this.isEditing}}<th></th>{{/if}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#each (if this.isEditing this.editSheet.complications this.cortex.sheet.complications) as |trait|}}
+      <tr>
+        <td>
+          {{#if this.isEditing}}
+            <Input @value={{trait.name}} class="form-control form-control-sm" />
+          {{else}}
+            {{trait.name}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.isEditing}}
+            <select class="form-select form-select-sm" onchange={{action (mut trait.die) value="target.value"}}>
+              {{#each this.cortex.dice_sizes as |size|}}
+                <option value="d{{size}}" selected={{eq trait.die (concat "d" size)}}>d{{size}}</option>
+              {{/each}}
+            </select>
+          {{else}}
+            {{trait.die}}
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.isEditing}}
+            <Input @value={{trait.desc}} class="form-control form-control-sm" />
+          {{else}}
+            {{trait.desc}}
+          {{/if}}
+        </td>
+        {{#if this.isEditing}}
+        <td class="text-end">
+          <button class="btn btn-outline-danger btn-sm" {{on "click" (fn this.removeTrait "complications" trait)}}>Remove</button>
+        </td>
+        {{/if}}
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{#if this.isEditing}}
+  <button class="btn btn-outline-secondary btn-sm" {{on "click" (fn this.addTrait "complications")}}>Add Complication</button>
+{{/if}}

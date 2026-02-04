@@ -85,6 +85,10 @@ export default Component.extend(AuthenticatedController, {
   diceExtraInstalled: computed(function() {
     return this.isExtraInstalled('dice');
   }),
+
+  cortexExtraInstalled: computed(function() {
+    return this.isExtraInstalled('cortex');
+  }),
     
   sceneAlerts: computed('scene.{is_watching,reload_required}', 'scrollPaused', function() {
     let alertList = [];

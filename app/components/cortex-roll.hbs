@@ -1,0 +1,7 @@
+{{#if this.useModal}}
+  <BsModalSimple @title="Cortex Roll" @closeTitle="Cancel" @submitTitle="Roll" @size={{null}} @fade={{true}} @open={{this.selectRoll}} @onSubmit={{this.rollDice}} @onHide={{(fn this.setSelectRoll false)}}>
+    <CortexRollBody @roll={{this}} />
+  </BsModalSimple>
+{{else}}
+  <CortexRollBody @roll={{this}} />
+{{/if}}

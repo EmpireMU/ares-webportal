@@ -19,6 +19,10 @@ export default Component.extend({
     return this.get('game.extra_plugins').some((e) => e == 'cookies');
   }),
 
+  cortexExtraInstalled: computed('game.extra_plugins', function () {
+    return this.get('game.extra_plugins').some((e) => e == 'cortex');
+  }),
+
   prefsExtraInstalled: computed('game.extra_plugins', function () {
     return this.get('game.extra_plugins').some((e) => e == 'prefs');
   }),

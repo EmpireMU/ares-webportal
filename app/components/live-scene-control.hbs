@@ -205,6 +205,10 @@
                    <LiveSceneFs3 @abilities={{this.abilities}} @scene={{this.scene}} />
                {{/if}}
                
+               {{#if this.cortexExtraInstalled}}
+                 <LiveSceneCortex @scene={{this.scene}} />
+               {{/if}}
+               
                {{#if this.cookiesExtraInstalled}}
                  <LiveSceneCookies @scene={{this.scene}} />
                {{/if}}      

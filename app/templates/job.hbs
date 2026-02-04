@@ -30,7 +30,7 @@
       
       <div class="display-job-controls">
        {{#if this.model.job.is_open }}       
-         <JobMenu @job={{this.model.job}} @abilities={{this.model.abilities}} @options={{this.model.options}} @id="jobMenuTop"  />
+         <JobMenu @job={{this.model.job}} @abilities={{this.model.abilities}} @options={{this.model.options}} @cortex={{this.model.job.cortex}} @id="jobMenuTop"  />
       {{/if}}
       </div>
   </div>

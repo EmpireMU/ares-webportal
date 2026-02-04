@@ -8,6 +8,7 @@ export default Component.extend({
   router: service(),
   flashMessages: service(),
   selectSkillRoll: false,
+  selectCortexRoll: false,
   
   handleApproval: function(approved) {
     this.gameApi.requestOne('approveRoster', { name: this.get('job.roster_name'), approved: approved })
@@ -46,6 +47,11 @@ export default Component.extend({
   @action
   showSelectSkillRoll(value) {
     this.set('selectSkillRoll', value);
+  },
+
+  @action
+  showSelectCortexRoll(value) {
+    this.set('selectCortexRoll', value);
   },
   
   
