@@ -113,7 +113,6 @@
     <tr>
       <th>Name</th>
       <th>Die</th>
-      <th>Description</th>
       {{#if this.isEditing}}<th></th>{{/if}}
     </tr>
   </thead>
@@ -136,13 +135,6 @@
             </select>
           {{else}}
             {{trait.die}}
-          {{/if}}
-        </td>
-        <td>
-          {{#if this.isEditing}}
-            <Input @value={{trait.desc}} class="form-control form-control-sm" />
-          {{else}}
-            {{trait.desc}}
           {{/if}}
         </td>
         {{#if this.isEditing}}
