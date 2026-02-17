@@ -6,10 +6,18 @@
    
    {{#each this.model.char.profile as |profile|}}
    <p>
+   {{#if profile.editable}}
    <Input @type="text" size={{25}} @value={{profile.name}} placeholder="Enter section name." />
    <button class="btn btn-secondary" {{on 'click' (fn this.removeProfile profile.key)}}><i class="fa fa-trash" aria-label="Remove Section"></i></button>
+   {{else}}
+   <b>{{profile.name}}</b> <span class="text-muted">(staff only)</span>
+   {{/if}}
    </p>
+   {{#if profile.editable}}
    <MarkdownEditor @text={{profile.text}} />
+   {{else}}
+   <textarea class="form-control" rows={{8}} readonly>{{profile.text}}</textarea>
+   {{/if}}
     <hr>
    {{/each}}
    
